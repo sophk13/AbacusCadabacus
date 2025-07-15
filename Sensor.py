@@ -5,7 +5,6 @@ import time
 from Defs import *
 import utime
 from Speaker import *
-test
 
 
 
