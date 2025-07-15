@@ -8,7 +8,7 @@ from Sensor import *
 
 class Rung:
     #takes device adress speaker 1 adress, which rung it is, and any aditional speaker adresses up to 2
-    def __init__(self,m_Add,s_Add0, rung,s_Add1 = -1,s_Add2 = -1):
+    def __init__(self, m_Add, s_Add0, rung, s_Add1 = -1,s_Add2 = -1):
         #speaker 2 and 3 adresses saved for logic reasons
         self.s_Add1 = s_Add1
         self.s_Add2 = s_Add2
@@ -18,7 +18,7 @@ class Rung:
         self.scale_cur = self.scale_list[0]
         
         #sets up speaker and sensor
-        self.sensor = Sensor(SDA,SCL,m_Add,rung)
+        self.sensor = Sensor(SDA,SCL,m_Add,0)
         self.speaker0 = Speaker(s_Add0)
         
         #sets up aditional speakers if present
@@ -37,24 +37,28 @@ class Rung:
     def play(self):
         number = self.sensor.read()
         #print(number)
-        if bin(number).count("1") == 7:
-            self.tone(-1)
-        elif number >= 64:
+        if bin(number).count("1") == 10:
+            self.off()
+        elif number >= 512:
+            self.tone(8)
+        elif number >= 256:
+            self.tone(7)
+        elif number >= 128:
             self.tone(6)
-        elif number >= 32:
+        elif number >= 64:
             self.tone(5)
-        elif number >= 16:
+        elif number >= 32:
             self.tone(4)
-        elif number >= 8:
+        elif number >= 16:
             self.tone(3)
-        elif number >= 4:
+        elif number >= 8:
             self.tone(2)
-        elif number >= 2:
+        elif number >= 4:
             self.tone(1)
-        elif number >= 1:
+        elif number >= 2:
             self.tone(0)
         else:
-            self.tone(7)
+            self.tone(9)
             #print("test")
         
                 

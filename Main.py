@@ -8,73 +8,39 @@ from Speaker import *
 from Sensor import *
 from Rung import *
 
-pin1 = machine.Pin(2,Pin.OUT)
-pin2 = machine.Pin(3,Pin.OUT)
-pin3 = machine.Pin(4,Pin.OUT)
-scalepin = machine.Pin(5,Pin.IN)
-pin1.off()
-pin2.off()
-pin3.off()
+
+button = machine.Pin(BP,Pin.IN)
 scale = 0
 rand.seed()
 
-pin1.on()
-rung = Rung(0x18,SP_0,Rung1)
-pin1.off()
-pin2.on()
-rung2 = Rung(0x18,SP_1,Rung2)
-pin2.off()
-pin3.on()
-rung3 = Rung(0x18,SP_2,Rung3)
+
+rung = Rung(R_1,SP_0,0)
+rung2 = Rung(R_2,SP_1,1)
+rung3 = Rung(R_3,SP_2,2)
+rung4 = Rung(R_4,SP_3,3)
+rung5 = Rung(R_5,SP_4,4,SP_5,SP_6)
+rungs = [rung,rung2,rung3,rung4,rung5]
 rung3.song(5)
-utime.sleep_ms(150)
-pin3.off()
 
 try:
     while True:
             utime.sleep_ms(5)
-            pin1.on()
-            rung.play()
-            pin1.off()
             
-            pin2.on()
-            rung2.play()
-            pin2.off()
+            for i in range(5):
+                 rungs[i].play()
             
-            pin3.on()
-            rung3.play()
-            pin3.off()
-            
-            while scalepin.value() == 1:
+            while button.value() == 1:
                 scale += 1
-                pin1.on()
-                rung.scale(scale)
-                rung.off()
-                pin1.off()
+
+                for i in range(5):
+                     rungs[i].off()
+                     rungs[i].scale(scale)
                 
-                pin2.on()
-                rung2.scale(scale)
-                rung2.off()
-                pin2.off()
-                        
-                pin3.on()
-                rung3.scale(scale)
-                rung3.off()
                 rung3.song((scale-1)%5)#rand.randint(0,4))
                 utime.sleep_ms(150)
-                pin3.off()
                 
                 
 except KeyboardInterrupt:
     print("beep")
-    pin1.on()
-    rung.off()
-    pin1.off()
-    
-    pin2.on()
-    rung2.off()
-    pin2.off()
-            
-    pin3.on()
-    rung3.off()
-    pin3.off()
+    for i in range(5):
+         rungs[i].off()

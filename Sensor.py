@@ -33,6 +33,7 @@ class Sensor:
         self.I2C.writeto(self.DEV_ADDR,bytearray([OUTPUT_PORT1,0b10000000]))
         # allow time for sensors to turn on
         time.sleep_ms(20)
+        
         # Read one byte of data from the I/O expander, this data is D0 = LED control pin; D1-D7 = reflectance sensor signals
         self.I2C.writeto(self.DEV_ADDR,bytearray([INPUT_PORT0]))
         byte0 = self.I2C.readfrom(self.DEV_ADDR,1)[0]

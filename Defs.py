@@ -1,13 +1,20 @@
 
 ##PWM pins
-SP_0 = 14
-SP_1 = 21
-SP_2 = 16
-SP_3 = 20
+SP_0 = 0
+SP_1 = 1
+SP_2 = 2
+SP_3 = 3
+SP_4 = 4
+SP_5 = 13
+SP_6 = 14
+
+##Button pin
+BP = 6
 
 ##Line sensor
-SDA = 0
-SCL = 1
+SDA = 27
+SCL = 26
+#maybe 20 21 (U13) depending on side
 
 ##Adresses
 R_1 = 0x20
