@@ -1,4 +1,4 @@
-~~from machine import I2C, Pin, PWM
+from machine import I2C, Pin, PWM
 import machine
 import time
 from Defs import *
