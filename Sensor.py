@@ -36,20 +36,25 @@ class Sensor:
         
         # Read one byte of data from the I/O expander, this data is D0 = LED control pin; D1-D7 = reflectance sensor signals
         self.I2C.writeto(self.DEV_ADDR,bytearray([INPUT_PORT0]))
-        byte0 = bytearray(self.I2C.readfrom(self.DEV_ADDR,1)[0])
+        byte0 = self.I2C.readfrom(self.DEV_ADDR,1)
         self.I2C.writeto(self.DEV_ADDR,bytearray([INPUT_PORT1]))
-        byte1 = bytearray(self.I2C.readfrom(self.DEV_ADDR,1)[0])
+        byte1 = self.I2C.readfrom(self.DEV_ADDR,1)
 
-        #combine the two bits of bite 1 into bite 0 but swaped
-        byte0.append(byte1[6])
-        byte0.append(byte1[7])
+        #swap the bits of port 1
+        if byte1 == 1:
+            byte1 == 2
+        elif byte1 == 2:
+            byte1 == 1
+        
+        #shift byte0 over then add the to bytes together
+        Data = (byte0<<2) + byte1
 
         # turn off the LEDs in the line sensor
         self.I2C.writeto(self.DEV_ADDR,bytearray([OUTPUT_PORT1,0b00000000]))
         time.sleep_ms(20)
 
         #return byte
-        return int(byte0)  
+        return int(Data)  
 
 if __name__ == "__main__":
         pin1 = machine.Pin(28,Pin.OUT)
